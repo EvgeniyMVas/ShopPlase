@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Обновление категорий";
+}
+<div class="row">
+    <div class="col-1 fw-bold">Id</div>
+    <div class="col fw-bold">Название</div>
+    <div class="col fw-bold">Описание</div>
+</div>
+
+@{
+    int i = 0;
+}
+
+<form asp-action="UpdateAllCategories" method="post">
+    @foreach (Category p in Model)
+    {
+        <div class="row mb-2">
+            <div class="col-1">
+                @p.Id
+                <input type="hidden" name="Categories[@i].Id" value="@p.Id">
+            </div>
+            <div class="col">
+                <input class="form-control" name="Categories[@i].Name" value="@p.Name">
+            </div>
+            <div class="col">
+                <textarea class="form-control" name="Categories[@i].Description">@p.Description</textarea>
+            </div>
+        </div>
+        i++;
+    }
+    <div class="form-group text-center">
+        <button class="btn btn-primary" type="submit">Сохранить</button>
+        <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+    </div>
+</form>

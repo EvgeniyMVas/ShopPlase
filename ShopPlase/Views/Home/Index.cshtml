@@ -1,0 +1,93 @@
+﻿@* @{
+    ViewData["Title"] = "Все товары";
+}
+@model IEnumerable<Product> *@
+  
+
+@* <h3 class="p-2 bg-primary text-white text-center">Товары</h3>
+<div class="container">
+    @if(ViewBag.UpdateAll!=true)
+    {
+    <div class="row">
+        <div class="col fw-bold">Название</div>
+        <div class="col fw-bold">Категория</div>
+        <div class="col fw-bold">Закупочная цена</div>
+        <div class="col fw-bold">Розничная цена</div>
+        <div class="col"></div>
+    </div>
+    <form asp-action="AddProduct" asp-controller="Home" method="post">
+        <div class="row">
+            <div class="col">
+                <input name="Name" class="form-control" required />
+            </div>
+            <div class="col">
+                <input name="Category" class="form-control" required />
+            </div>
+            <div class="col">
+                <input name="PurchasePrice" class="form-control" required />
+            </div>
+            <div class="col">
+                <input name="RetailPrice" class="form-control" required />
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Добавить</button>
+            </div>
+        </div>
+    </form>
+    @if (Model.Count() == 0)
+    {
+        <div class="row">
+            <div class="col text-center p-2">Нет данных</div>
+        </div>
+    }
+    else
+    {
+        @foreach (Product product in Model)
+        {
+            <div class="row р-2">
+                <div class="col">@product.Name</div>
+                <div class="col">@product.Category</div>
+                <div class="col text-right">@product.PurchasePrice</div>
+                <div class="col text-right">@product.RetailPrice</div>
+                    <div class="col text-right">
+                    <form asp-action="DeleteProduct" method="post" onsubmit="return confirm('Вы точно хотите удалить этот товар?');">
+                        <input type="hidden" name="Id" value="@product.Id">
+                        <a asp-action="UpdateProduct" asp-route-id="@product.Id" class="btn btn-outline-primary">Редактировать</a>
+                        <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                    </form>
+                    </div>
+                </div>
+        }
+        }
+        <div class="text-center">
+            <a asp-action="UpdateAll" class="btn btn-primary">Редактировать все</a>
+        </div>
+
+    }else
+    {
+        @await Html.PartialAsync("_InlineEditor", Model)
+    }
+</div> *@
+
+@model HomeViewModel
+
+
+
+    <h2 class="mb-3 mt-5">Топ  товаров на данный момент</h2>
+    <div class="row">
+        @foreach (var product in Model.LatestProducts)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                <img src="@Url.Content(product.ImageUrl)" class="card-img-top" alt="@product.Name" style="height: 200px; object-fit: cover;" />
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">Категория: @product.Category.Name</p>
+                        <p class="card-text">Цена: @product.RetailPrice $.</p>
+                        <a asp-action="Details" asp-controller="Home" asp-route-id="@product.Id" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

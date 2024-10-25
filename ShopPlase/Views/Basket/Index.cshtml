@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ShopPlase.Models.Basket>
+
+<h2>Ваша корзина</h2>
+
+@if (!Model.Any())
+{
+    <h3>Корзина пуста</h3>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Количество</th>
+                <th>Цена за единицу</th>
+                <th>Общая стоимость</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product?.Name</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product?.RetailPrice.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</td>
+                    <td>@(item.Quantity * item.Product?.RetailPrice) $</td>
+                    <td>
+                        <form asp-action="RemoveFromBasket" method="post">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-end">
+        <b>ИТОГО: @Model.Sum(item => item.Quantity * item.Product?.RetailPrice ?? 0).ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</b>
+    </div>
+}

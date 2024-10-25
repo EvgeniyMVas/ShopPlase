@@ -1,0 +1,49 @@
+﻿<div class="container-fluid mt-3">
+    <div class="row m-1 align-items-center">
+        <div class="col"></div>
+        <div class="col-auto">
+            <label class="col-form-label">Поиск</label>
+        </div>
+        <div class="col-3">
+            <select form="pageform" name="options.searchpropertyname" class="form-control">
+                @foreach (string s in ViewBag.searches as string[])
+                {
+                    <option value="@s" selected="@(Model.Options.OrderPropertyName == s)">
+                        @(s.IndexOf('.') == -1 ? s : s.Substring(0, s.IndexOf('.')))
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="col">
+            <input form="pageform" class="form-control" name="options.searchterm" value="@Model.Options.SearchTerm" placeholder="Введите текст для поиска" />
+        </div>
+        <div class="col-auto">
+            <button form="pageform" class="btn btn-primary" type="submit">Поиск</button>
+        </div>
+        <div class="col"></div>
+    </div>
+    <div class="row m-1 align-items-center mt-3">
+        <div class="col"></div>
+        <div class="col-auto">
+            <label class="col-form-label">Сортировка</label>
+        </div>
+        <div class="col-3">
+            <select form="pageform" name="options.OrderPropertyName" class="form-control">
+                @foreach (string s in ViewBag.sorts as string[])
+                {
+                    <option value="@s" selected="@(Model.Options.OrderPropertyName == s)">
+                        @(s.IndexOf('.') == -1 ? s : s.Substring(0, s.IndexOf('.')))
+                    </option>
+                }
+            </select>
+        </div>
+        <div class="col-3 d-flex align-items-center">
+            <input form="pageform" type="checkbox" name="Options.DescendingOrder" id="Options.DescendingOrder" class="form-check-input" value="true" @(Model.Options.DescendingOrder ? "checked" : "") />
+            <label for="Options.DescendingOrder" class="form-check-label ms-2">По убыванию</label>
+        </div>
+        <div class="col-auto">
+            <button form="pageform" class="btn btn-primary" type="submit">Сортировка</button>
+        </div>
+        <div class="col"></div>
+    </div>
+</div>

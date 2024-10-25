@@ -1,0 +1,30 @@
+﻿@{
+    ViewData["Title"] = "Данные о товаре";
+}
+@model Product
+
+<div class="p-5 text-center bg-light">
+    <h2 class="mb-3">Данные о товаре</h2>
+</div>
+<form method="get">
+    <div class="form-group">
+        <b><label asp-for="Id" hidden></label></b>
+        <b>Catalog number</b>
+        <input asp-for="Id" class="form-control" readonly="readonly" />
+    </div>
+    <div class="form-group">
+        <b><label asp-for="Name"></label></b>
+        <input asp-for="Name" class="form-control" readonly="readonly" />
+    </div>
+
+    <div class="form-group">
+        <b><label asp-for="Category"></label></b>
+        <input asp-for="Category.Name" class="form-control" readonly="readonly" />
+    </div>
+    <div class="form-group">
+        <b><label asp-for="RetailPrice"></label></b>
+        <span class="form-control-plaintext">@Model.RetailPrice.ToString("C", System.Globalization.CultureInfo.GetCultureInfo("en-US"))</span>
+    </div>
+</form>
+<a asp-action="Index" asp-controller="Home" class="btn btn-primary">На главную</a>
+<a asp-action="AddToBasket" asp-controller="Basket" asp-route-id="@Model.Id" class="btn btn-primary">Добавить в корзину</a>
